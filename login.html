@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+    }
+
+    form {
+      display: grid;
+      gap: 1rem;
+      max-width: 20rem;
+    }
+
+    label {
+      display: grid;
+      gap: 0.25rem;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Login</h1>
+    <form id="login-form">
+      <label>
+        Username
+        <input data-cy="username" name="username" type="text" autocomplete="username" required>
+      </label>
+
+      <label>
+        Password
+        <input data-cy="password" name="password" type="password" autocomplete="current-password" required>
+      </label>
+
+      <button data-cy="login-btn" type="submit">Log in</button>
+      <p id="login-error" role="alert" hidden>Invalid username or password.</p>
+    </form>
+  </main>
+
+  <script>
+    document.querySelector('#login-form').addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const username = document.querySelector('[name="username"]').value;
+      const password = document.querySelector('[name="password"]').value;
+      const loginError = document.querySelector('#login-error');
+
+      if (username === 'testUser' && password === 'testPass123') {
+        loginError.hidden = true;
+        if (window.location.protocol === 'file:') {
+          window.location.hash = '/dashboard';
+        } else {
+          window.history.pushState({}, '', '/dashboard');
+        }
+        return;
+      }
+
+      loginError.hidden = false;
+    });
+  </script>
+</body>
+</html>

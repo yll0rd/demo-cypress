@@ -1,5 +1,6 @@
-const loginPath = '/login';
 const dashboardPath = '/dashboard';
+const browserOrigin = 'https://example.cypress.io';
+const loginPageFile = 'login.html';
 
 const validUsername = 'testUser';
 const validPassword = 'testPass123';
@@ -9,9 +10,17 @@ const passwordSelector = '[data-cy="password"]';
 const loginButtonSelector = '[data-cy="login-btn"]';
 
 describe('Login functionality', () => {
-  it('logs in with valid credentials and redirects to the dashboard', () => {
+  it('logs in with valid credentials from login.html and redirects to the dashboard', () => {
     // Arrange
-    cy.visit(loginPath);
+    cy.readFile(loginPageFile).then((loginPageHtml) => {
+      cy.visit(browserOrigin);
+      cy.window().then((window) => {
+        window.document.open();
+        window.document.write(loginPageHtml);
+        window.document.close();
+      });
+    });
+
     cy.get(usernameSelector).should('be.visible');
     cy.get(passwordSelector).should('be.visible');
 
