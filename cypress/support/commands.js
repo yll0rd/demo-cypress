@@ -30,3 +30,12 @@ Cypress.Commands.add('login', (email, password) => {
   cy.get('#Input_Password').type(password);
   cy.get('#login-submit').click();
 });
+
+Cypress.Commands.add('LoginAsTester', () => {
+  cy.visit('/Identity/Account/Login');
+  cy.fixture('tester.json').then((data) => {
+    cy.get('#Input_Email').type(data.Username1);
+    cy.get('#Input_Password').type(data.Password1);
+  });
+  cy.get('#login-submit').click();
+});
